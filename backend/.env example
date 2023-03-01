@@ -1,0 +1,7 @@
+DBUSER = 
+DBPASSWORD = 
+DBHOST = 
+DBNAME = 'partytime'
+
+PORT = 3000
+JWT_SECRET = 
