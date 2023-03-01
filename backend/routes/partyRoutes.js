@@ -62,7 +62,7 @@ router.post(
         partyDate: partyDate,
         photos: photos,
         privacy: req.body.privacy,
-        userID: user._id.toString(),
+        userId: user._id.toString(),
       });
 
       try {
@@ -82,5 +82,32 @@ router.post(
     }
   }
 );
+
+router.get("/userparties", verifyToken, async (req, res) => {
+  try {
+    const token = req.header("auth-token");
+    const user = await getUserByToken(token);
+    const userId = user._id.toString();
+    const parties = await Party.find({ userId: userId });
+
+    res.json({ error: null, parties: parties });
+  } catch (error) {
+    return res.status(40).json({ error });
+  }
+});
+
+router.get("/userparty/:id", verifyToken, async (req, res) => {
+  try {
+    const token = req.header("auth-token");
+    const user = await getUserByToken(token);
+    const userId = user._id.toString();
+    const partyId = req.params.id;
+
+    const party = await Party.findOne({ _id: partyId, userId: userId });
+    res.json({ error: null, party: party });
+  } catch (error) {
+    return res.status(40).json({ error });
+  }
+});
 
 module.exports = router;
