@@ -3,10 +3,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-require('dotenv').config()
+require("dotenv").config();
 
 //routes
-const authRouter = require("./routes/authRoutes.js")
+const authRouter = require("./routes/authRoutes.js");
+const userRouter = require("./routes/userRoutes.js");
 // middleware
 
 //config
@@ -18,12 +19,12 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // atrelar rotas do express
-app.use('/api/auth', authRouter)
+app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
 
-//conexao mongodb  
+//conexao mongodb
 mongoose.connect(`mongodb://${process.env.DBUSER}:${process.env.DBPASSWORD}@${process.env.DBHOST}`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  dbName:process.env.DBNAME
 });
 
 app.get("/", (req, res) => {
